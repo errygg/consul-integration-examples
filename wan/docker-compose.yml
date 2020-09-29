@@ -1,0 +1,33 @@
+version: '3'
+
+services:
+
+  consul-server-dc1:
+    hostname: consul-server-dc1
+    image: consul:latest
+    networks:
+      - consul
+    ports:
+      - "8700:8500"
+      - "8702:8302"
+    volumes:
+      - ./server-dc1.hcl:/consul/config/agent.hcl
+    command: "agent -server -bootstrap-expect 1 -ui -client 0.0.0.0 -config-file=/consul/config/agent.hcl"
+
+  consul-server-dc2:
+    hostname: consul-server-dc2
+    image: consul:latest
+    networks:
+      - consul
+    ports:
+      - "8800:8500"
+      - "8802:8302"
+    volumes:
+      - ./server-dc2.hcl:/consul/config/agent.hcl
+    command: "agent -server -bootstrap-expect 1 -ui -client 0.0.0.0 -config-file=/consul/config/agent.hcl"
+
+networks:
+  consul:
+    ipam:
+      config:
+        - subnet: 172.20.0.0/24

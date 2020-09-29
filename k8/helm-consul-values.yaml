@@ -1,0 +1,9 @@
+global:
+  datacenter: minikubedc
+ui:
+  service:
+    type: 'NodePort'
+client:
+  enabled: true
+server:
+  enabled: false
